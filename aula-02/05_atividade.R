@@ -12,11 +12,12 @@ load("aula-02/data/dados_exercicio.RData")
 ##         quero ver uma saída na Console.
 ### # ####
 
-
+str(acessos_alunos)
 
 ### 2 ###
 ## Quantos elementos a variável acessos_alunos possui? Utilize uma função do R que retorna o tamanho da variável.
 
+length(acessos_alunos)
 ## Dica: Vimos um exemplo no mesmo material sobre estruturas de dados
 ### # ###
 
