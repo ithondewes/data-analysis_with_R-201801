@@ -28,6 +28,8 @@ length(acessos_alunos)
 ## você fez. A linha deve ser impressa na Console, com um texto que diga o seu código de aluno e o valor conforme o seguinte exemplo:
 ## "O aluno <alu...> realizou N acessos."
 
+paste("O aluno201830275 realizou 0 acessos.")
+
 ## Dica 1: Utilize a função paste() para composição do texto que será impresso. 
 ## Dica 2: Vimos exemplos disto nos materiais dos tipos numéricos e das estruturas de dados.
 ### # ###
@@ -44,18 +46,20 @@ acessos <- unlist(acessos_alunos)
 ## 2. Com uma operação de indexação, crie um outro vetor contendo somente os valores maiores
 ## 3. Determine o tamanho do vetor da operação 2, imprimindo o resultado na Console
 ### # ###
-
-
-
+acessos > 0
+which(acessos>0)
+length(which(acessos>0))
 ### 5 ###
 ## Combine todas as etapas acima em uma única chamada, sem a criação dos vetores auxiliares
 ### # ###
-
+c(acessos>0, which(acessos>0), length(which(acessos>0)))
 
 
 ### 6 ###
 ## Agora determine quantos colegas fizeram menos acessos que você. 
 ## Faça isso utilizando a função sum!
+
+sum(acessos<0)
 
 ## Dica: Lembre que falamos sobre como o R faz conversões implícitas entre o tipo lógico e tipos numéricos
 ### # ###
@@ -73,6 +77,13 @@ acessos <- unlist(acessos_alunos)
 ## OBSERVAÇÃO :: Não avaliarei participação na forma do enunciado deste exercício. 
 ### # ###
 
+notas <- unlist(acessos_alunos)
+notas == 0
+which(notas==0)
+notas < 10
+which(notas < 10)
+notas >= 10
+which(notas>=10)
 
 
 ### 8 ###
@@ -107,3 +118,4 @@ acessos_alunos_e_guest$guest <- NA
 # 4. Execute o comando abaixo para ler a documentação da função sum e veja se há como modificar a chamada da função sum na presença
 #    de NAs. Teste os exemplos da página de help da função sum.
 help(sum)
+
