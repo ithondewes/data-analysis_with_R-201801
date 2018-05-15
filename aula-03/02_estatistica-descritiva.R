@@ -141,6 +141,7 @@ subset_salarios %>%
 #' 
 ## ------------------------------------------------------------------------
 print("Atividade")
+library(lubridate)
 ## Modificar o Dataset para criação de nova variável
 
 ## Determine o tempo médio de trabalho em anos, em nível nacional
@@ -148,6 +149,25 @@ print("Atividade")
 ## Determine o tempo médio de trabalho em anos, por UF
 
 ## Determine a média salarial por ano de ingresso
+
+subset_com_ano <- subset_salarios %>%
+  mutate(ano_ingresso = year(DATA_DIPLOMA_INGRESSO_SERVICOPUBLICO))
+
+
+subset_com_ano %>%
+  summarise(tempo_medio = mean(year(today()) - ano_ingresso))
+
+
+subset_com_ano %>%
+  group_by(UF_EXERCICIO) %>%
+  summarise(tempo_medio = mean(year(today()) - ano_ingresso)) %>%
+  arrange(desc(tempo_medio)) %>% View()
+    
+    
+    subset_com_ano %>%
+      group_by(ano_ingresso) %>%
+      summarise(media_salarial = mean(REMUNERACAO_REAIS)) %>%
+      arrange(desc(media_salarial))
 
 
 #' >> FIM DA ATIVIDADE
@@ -196,13 +216,18 @@ subset_salarios %>%
 print("Atividade")
 
 ## Código aqui
-
+subset_salarios %>%
+  group_by(UF_EXERCICIO) %>%
+  
+  
 #' 
 #' __Atividade II__
 #' 
 #' Qual sua justificativa para a quantidade de casos onde a mediana foi maior que a média? Dica: Observe o gráfico que mostra a média e a mediana. Há cauda longa? Em qual direção?
 #' 
 #' ``` SUA RESPOSTA AQUI ```
+
+
 #' 
 #' >> FIM DA ATIVIDADE
 #' 
@@ -290,6 +315,17 @@ print("Atividade")
 
 ## Código aqui
 
+dois_desvios <- 2* sd(subset_salarios$REMUNERACAO_REAIS)
+
+media <- mean(subset_salarios$REMUNERACAO_REAIS)
+
+dois_desvios_da_media <- media + dois_desvios
+
+subset_salarios %>%
+  filter(REMUNERACAO_REAIS <= dois_desvios_da_media) %>%
+  nrow() -> total_dentro_de_dois_desvios
+
+total_dentro_de_dois_desvios / nrow(subset_salarios)
 #' 
 #' __Atividade II__
 #' 
@@ -299,7 +335,30 @@ print("Atividade")
 print("Atividade")
 
 ## Código aqui
+subset_salarios %>%
+  count(DESCRICAO_CARGO) %>%
+  filter(n > 100) -> cargos_populares
 
+subset_salarios %>%
+  filter(DESCRICAO_CARGO %in% cargos_populares$DESCRICAO_CARGO)
+
+subset_salarios %>%
+  group_by(DESCRICAO_CARGO) %>%
+  filter(n() > 100) %>%
+  summarise( desvio_padrao = sd(REMUNERACAO_REAIS)
+             , media = mean(REMUNERACAO_REAIS)
+             , cv = desvio_padrao / media
+             , qtde_servidores = n()) %>%
+  ungroup() %>%
+ arrange(cv) %>%
+head(10)
+
+set.seed(1234)
+ocorrencias_remuneracoes <- table(subset_salarios$REMUNERACAO_REAIS)            
+
+valores_aleatorios_uniforme <- runif(n=300, min = 1000, max = 5000)
+
+ocorencias_valores_aleatorios <- table(valores_aleatorios_uniforme)
 #' 
 #' __Atividade III__
 #' 
