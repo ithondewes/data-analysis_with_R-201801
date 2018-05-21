@@ -14,6 +14,13 @@ salarios <- read_csv("aula-03/data/201802_dados_salarios_servidores.csv.gz")
 ## 
 ### # ####
 
+valor_dolar <- 3.2428
+
+salarios %>%
+mutate(REMUNERACAO_TOTAL = REMUNERACAO_REAIS + (REMUNERACAO_DOLARES * valor_dolar)) %>%
+filter(REMUNERACAO_TOTAL >= 900) -> salarios
+
+
 
 ### 2 ####
 ## 
@@ -25,6 +32,15 @@ salarios <- read_csv("aula-03/data/201802_dados_salarios_servidores.csv.gz")
 salarios %>% count(UF_EXERCICIO) %>% pull(UF_EXERCICIO) -> ufs # EXEMPLO
 ## 
 ### # ####
+
+salarios %>% 
+  filter(ORGSUP_LOTACAO != ORGSUP_EXERCICIO)  %>% 
+  group_by(DESCRICAO_CARGO) %>%
+  summarise(qtd_serv = n()) %>%
+  ungroup() %>%
+  arrange(desc(qtd_serv)) %>%
+  head(5)%>%
+  pull(DESCRICAO_CARGO) -> cargos_diferente_lotacao
 
 
 ### 3 ####
