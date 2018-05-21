@@ -141,6 +141,7 @@ subset_salarios %>%
 #' 
 ## ------------------------------------------------------------------------
 print("Atividade")
+
 library(lubridate)
 ## Modificar o Dataset para criação de nova variável
 
@@ -158,16 +159,38 @@ subset_com_ano %>%
   summarise(tempo_medio = mean(year(today()) - ano_ingresso))
 
 
+
+## Modificar o Dataset para criação de nova variável
+
+subset_com_ano <- subset_salarios %>%
+  mutate(ano_ingresso = year(DATA_DIPLOMA_INGRESSO_SERVICOPUBLICO)) 
+
+## Determine o tempo médio de trabalho em anos, em nível nacional
+subset_com_ano %>%
+  summarise(tempo_medio = mean(year(today()) - ano_ingresso))
+
+## Determine o tempo médio de trabalho em anos, por UF
+
 subset_com_ano %>%
   group_by(UF_EXERCICIO) %>%
   summarise(tempo_medio = mean(year(today()) - ano_ingresso)) %>%
   arrange(desc(tempo_medio)) %>% View()
+
     
     
     subset_com_ano %>%
       group_by(ano_ingresso) %>%
       summarise(media_salarial = mean(REMUNERACAO_REAIS)) %>%
       arrange(desc(media_salarial))
+
+
+## Determine a média salarial por ano de ingresso
+subset_com_ano %>%
+  group_by(ano_ingresso) %>%
+  summarise(media_salarial = mean(REMUNERACAO_REAIS)) %>%
+  arrange(desc(media_salarial))
+
+
 
 
 #' >> FIM DA ATIVIDADE
@@ -216,17 +239,18 @@ subset_salarios %>%
 print("Atividade")
 
 ## Código aqui
+
 subset_salarios %>%
   group_by(UF_EXERCICIO) %>%
   
   
+
 #' 
 #' __Atividade II__
 #' 
 #' Qual sua justificativa para a quantidade de casos onde a mediana foi maior que a média? Dica: Observe o gráfico que mostra a média e a mediana. Há cauda longa? Em qual direção?
 #' 
 #' ``` SUA RESPOSTA AQUI ```
-
 
 #' 
 #' >> FIM DA ATIVIDADE
@@ -315,6 +339,7 @@ print("Atividade")
 
 ## Código aqui
 
+
 dois_desvios <- 2* sd(subset_salarios$REMUNERACAO_REAIS)
 
 media <- mean(subset_salarios$REMUNERACAO_REAIS)
@@ -326,6 +351,8 @@ subset_salarios %>%
   nrow() -> total_dentro_de_dois_desvios
 
 total_dentro_de_dois_desvios / nrow(subset_salarios)
+
+
 #' 
 #' __Atividade II__
 #' 
@@ -335,6 +362,7 @@ total_dentro_de_dois_desvios / nrow(subset_salarios)
 print("Atividade")
 
 ## Código aqui
+
 subset_salarios %>%
   count(DESCRICAO_CARGO) %>%
   filter(n > 100) -> cargos_populares
@@ -359,6 +387,7 @@ ocorrencias_remuneracoes <- table(subset_salarios$REMUNERACAO_REAIS)
 valores_aleatorios_uniforme <- runif(n=300, min = 1000, max = 5000)
 
 ocorencias_valores_aleatorios <- table(valores_aleatorios_uniforme)
+
 #' 
 #' __Atividade III__
 #' 
